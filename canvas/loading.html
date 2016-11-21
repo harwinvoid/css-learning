@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <canvas id="canvas" width="500" height="500">
+      <p>your brower not support canvas!</p>
+    </canvas>
+    <script>
+      window.onload = function () {
+        // 获取canvas元素
+        var canvas = document.getElementById('canvas'),
+            // 获取画图环境， 指明为2d
+            context = canvas.getContext('2d'),
+            centerX = canvas.width / 2, // Canvas 中心点x轴坐标
+            centerY = canvas.height / 2, // Canvas 中心点y轴坐标
+            rad = Math.PI * 2 / 100, //将360度分为100份，那么每一份就是1rad
+            speed = 0.1 // 加载速度
+        // 绘制蓝色外圈
+        function blueCircle (n) {
+          context.save()
+          context.strokeStyle = '#49f' // 设置描边样式
+          context.lineWidth = 5 // 设置线宽
+          context.beginPath() //路径开始
+          context.arc(centerX, centerY, 100, -Math.PI / 2, -Math.PI / 2 + n * rad, false)
+          context.stroke()  // 绘制
+          context.closePath() //路径结束
+          context.restore()
+        }
+        // 绘制白色外圈
+        function whiteCircle () {
+          context.save()
+          context.beginPath()
+          context.strokeStyle = 'white'
+          context.arc(centerX, centerY, 100, 0, Math.PI * 2, false)
+          context.stroke()
+          context.closePath()
+        }
+        // 百分比文字绘制
+        function text (n) {
+          context.save()
+          context.strokeStyle = '#49f'  // 设置描边样式
+          context.font = '40px Arial' // 设置文字大小和字体
+          //绘制字体，并且指定位置
+          context.strokeText(n.toFixed(0) + '%', centerX - 25, centerY + 10)
+          context.stroke()
+          context.restore()
+        }
+        // 动画循环
+        (function drawFrame () {
+          window.requestAnimationFrame(drawFrame, canvas)
+          context.clearRect(0, 0, canvas.width, canvas.height)
+          whiteCircle()
+          text(speed)
+          blueCircle(speed)
+
+          if (speed > 100 ) speed = 0
+          speed += 0.1
+        } ())
+
+
+
+      }
+    </script>
+  </body>
+</html>
